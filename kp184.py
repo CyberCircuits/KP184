@@ -45,15 +45,15 @@ from struct import pack, unpack
 
 class KP184:
     
-    def __init__(self, rs485port, address):
-        self.openPort(rs485port)
+    def __init__(self, rs485port, address, baudrate):
+        self.openPort(rs485port, baudrate)
         self.address = int(address)
         self.debug = False
 
-    def openPort(self, rs485port):
+    def openPort(self, rs485port, baudrate):
         self.serial = serial.Serial()
         self.serial.port = rs485port
-        self.serial.baudrate = 9600
+        self.serial.baudrate = baudrate
         self.serial.stopbits = 1
         self.serial.bytesize = 8
         self.serial.parity = 'N'

@@ -37,8 +37,8 @@ import time
 from kp184 import KP184
 
 class KP184Example(KP184):
-    def __init__(self, rs485port, address):
-        super().__init__(rs485port, address)
+    def __init__(self, rs485port, address, baudrate):
+        super().__init__(rs485port, address, baudrate)
     
     def testCyclicVoltageCurrent(self, interval):
         self.debug = False
@@ -72,12 +72,15 @@ class KP184Example(KP184):
         return "Finished"
 
 def main():
+    address = 1
+    baudrate = 9600
+    rs485port = sys.argv[1]
 
     try:
         if len(sys.argv) < 3:
             printHelp()
             exit()
-        kp = KP184Example(sys.argv[1], 1) # rs485port, address=1
+        kp = KP184Example(rs485port, address, baudrate)
 
         try:
             method_to_call = getattr(kp, sys.argv[2])
@@ -92,7 +95,7 @@ def main():
         exit()
 
 def printHelp():
-    print("kp184Example.py cmd [value]")
+    print(f"{sys.argv[0]} port cmd [value] [parameters]")
     print("Commands:")
     for cmdname in filter(lambda name: name.startswith(('read', 'write', 'test')), dir(KP184Example)):
         print(f" - {cmdname}")
